@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 __author__ = 'florije'
 
 from flask import Flask, send_file, Blueprint, request
