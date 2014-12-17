@@ -7,6 +7,11 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
 from flask.ext.marshmallow import Marshmallow
 from flask.ext.login import login_user, logout_user
+from flask.ext.wtf import Form
+from wtforms_alchemy import model_form_factory
+# from flask_wtf import Form
+from wtforms import StringField, IntegerField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 
@@ -14,6 +19,8 @@ app.debug = True
 app.jinja_env.variable_start_string = '[['
 app.jinja_env.variable_end_string = ']]'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///demo.db"
+app.config['SECRET_KEY'] = "This is a key!"
+# app.config['WTF_CSRF_ENABLED'] = False
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -70,6 +77,11 @@ class TodoSchema(ma.Schema):
     class Meta:
         # Fields to expose
         fields = ('id', 'content')
+
+
+# BaseModelForm = model_form_factory(Form)
+class ThingForm(Form):
+    content = StringField('content', validators=[DataRequired(), ])
 
 
 class CusApi(Api):
@@ -137,10 +149,16 @@ class ThingsHandler(BaseHandler):
         if not request.data:
             raise InvalidAPIUsage(msg='Request data type is error!')
 
-        parser = reqparse.RequestParser()
-        parser.add_argument('content', type=unicode, required=True, help="content cannot be blank!", location='json')
-        args = parser.parse_args()
-        thing = ThingModel(content=args.get('content'))
+        thing_form = ThingForm(csrf_enabled=False)
+        if thing_form.validate_on_submit():
+            print thing_form.content.data
+
+        # parser = reqparse.RequestParser()
+        # parser.add_argument('content', type=unicode, required=True, help="content cannot be blank!", location='json')
+        # args = parser.parse_args()
+        # thing = ThingModel(content=args.get('content'))
+
+        thing = ThingModel(content=thing_form.content.data)
         try:
             db.session.add(thing)
             db.session.commit()
