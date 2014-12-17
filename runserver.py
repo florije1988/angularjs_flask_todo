@@ -6,6 +6,7 @@ from flask.ext.restful import Api, Resource, reqparse
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
 from flask.ext.marshmallow import Marshmallow
+from flask.ext.login import login_user, logout_user
 
 app = Flask(__name__)
 
