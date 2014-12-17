@@ -27,9 +27,9 @@ def index():
 
 
 class ApiBaseError(Exception):
-    '''
-    基异常类。
-    '''
+    """
+    异常基类。
+    """
 
     status_code = 200
     code = 0
@@ -44,6 +44,9 @@ class ApiBaseError(Exception):
 
 
 class InvalidAPIUsage(ApiBaseError):
+    """
+    非法接口使用异常
+    """
     code = 10000
 
     def __init__(self, msg=None, code=None, status_code=None, data=None):
@@ -51,6 +54,9 @@ class InvalidAPIUsage(ApiBaseError):
 
 
 class ThingModel(db.Model):
+    """
+    数据库Thing模型
+    """
     __tablename__ = 'things'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -58,12 +64,18 @@ class ThingModel(db.Model):
 
 
 class TodoSchema(ma.Schema):
+    """
+    数据库返回模型
+    """
     class Meta:
         # Fields to expose
         fields = ('id', 'content')
 
 
 class CusApi(Api):
+    """
+    自定义接口，主要是返回异常类。
+    """
     def handle_error(self, error):
         code = getattr(error, 'code', 500)
         if issubclass(error.__class__, ApiBaseError):
@@ -84,12 +96,18 @@ class CusApi(Api):
 
 
 class BaseHandler(Resource):
+    """
+    处理请求基类
+    """
     @staticmethod
     def json_output(code=0, msg='success', data=None):
         return JSONResponse(code=code, msg=msg, data=data).to_json()
 
 
 class JSONResponse(object):
+    """
+    返回值格式化类
+    """
     def __init__(self, code=0, msg='success', data=None):
         self.code = code
         self.msg = msg
@@ -104,6 +122,9 @@ class JSONResponse(object):
 
 
 class ThingsHandler(BaseHandler):
+    """
+    Thing处理
+    """
     def get(self):
         # return {'names': [{'content': 'xiaoqigui'}, {'content': 'hahaha'}]}
         res_task = ThingModel.query.all()
@@ -139,6 +160,10 @@ manager = Manager(app)
 
 @manager.command
 def create_db():
+    """
+    初始化数据库
+    :return:
+    """
     db.create_all()
 
 
