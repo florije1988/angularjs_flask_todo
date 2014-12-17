@@ -97,13 +97,10 @@ class JSONResponse(object):
 
     def to_json(self):
         # return simplejson.dumps(self.__to_dict(), ensure_ascii=False)
-        return self.__to_dict()
-
-    def __to_dict(self):
-        re_dict = dict(code=self.code, msg=self.msg)
+        res_dict = dict(code=self.code, msg=self.msg)
         if self.data:
-            re_dict['data'] = self.data
-        return re_dict
+            res_dict['data'] = self.data
+        return res_dict
 
 
 class ThingsHandler(BaseHandler):
