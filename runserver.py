@@ -21,7 +21,7 @@ api = Api(app)
 
 
 @app.route('/')
-def hello_world():
+def index():
     # return 'Hello World!'
     return send_file('templates/index.html'), 200
 
