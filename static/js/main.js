@@ -6,16 +6,31 @@
 
     'use strict';
 
-    angular.module('TodoApp', [])
+    angular.module('ThingApp', [])
         .run(function ($rootScope) {
-            $rootScope.name = 'fuboqing';
+            //$rootScope.name = 'fuboqing';
         })
-        .controller("AppCtrl", function ($scope, $http) {
-            $scope.message = "fuboiqng";
+        .controller("ThingInitController", function ($scope, $http) {
+            //$scope.message = "fuboiqng";
 
-            $http.get("/things").success(function (data) {
-                $scope.things = data;
-            })
+            $http.get("/things").success(function (results) {
+                $scope.things = results.data;
+            });
+
+            $scope.postThing = function () {
+                var thing = $scope.input_thing;
+                // fire the API request
+                $http.post('/things', {"content": thing}).
+                    success(function (results) {
+                        $scope.things = results.data
+                    }).
+                    error(function (error) {
+
+                    });
+            }
+        })
+        .controller("ThingNewController", function($scope, $http){
+
         })
 }());
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="TodoApp">
+<html ng-app="ThingApp">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
@@ -10,7 +10,14 @@
 <div>
     Hello {{ name }}!
 </div>
-<div ng-controller="AppCtrl">
+
+<div ng-controller="ThingInitController">
+    <form role="form" ng-submit="postThing()">
+        <div class="form-group">
+            <input type="text" name="name" class="form-control" id="url-box" placeholder="Enter thing..." style="max-width: 300px;" ng-model="input_thing" required>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
     Hello, {{ message }}!
     <div ng-repeat="thing in things">
         {{ thing.content }}
