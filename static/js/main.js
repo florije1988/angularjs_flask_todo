@@ -22,7 +22,9 @@
                 // fire the API request
                 $http.post('/things', {"content": thing}).
                     success(function (results) {
-                        $scope.things = results.data
+                        $http.get("/things").success(function (results) {
+                            $scope.things = results.data;
+                        });
                     }).
                     error(function (error) {
 

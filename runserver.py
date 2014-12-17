@@ -117,7 +117,7 @@ class ThingsHandler(BaseHandler):
             raise InvalidAPIUsage(msg='Request data type is error!')
 
         parser = reqparse.RequestParser()
-        parser.add_argument('content', type=str, required=True, help="content cannot be blank!", location='json')
+        parser.add_argument('content', type=unicode, required=True, help="content cannot be blank!", location='json')
         args = parser.parse_args()
         thing = ThingModel(content=args.get('content'))
         try:

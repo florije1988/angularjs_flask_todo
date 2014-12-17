@@ -7,9 +7,6 @@
     <script src="/static/js/main.js" type="application/javascript"></script>
 </head>
 <body>
-<div>
-    Hello {{ name }}!
-</div>
 
 <div ng-controller="ThingInitController">
     <form role="form" ng-submit="postThing()">
@@ -18,7 +15,6 @@
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
-    Hello, {{ message }}!
     <div ng-repeat="thing in things">
         {{ thing.content }}
     </div>
